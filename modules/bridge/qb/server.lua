@@ -309,6 +309,12 @@ end)
 export('qb-inventory.OpenInventory', function(playerId, invId, data)
     local inventory = Inventory(invId)
 
+    if not inventory then
+        local label, slots, maxweight = data and data.label or invId, data and data.slots or 100, data and data.maxweight or 2000000
+        exports['ox_inventory']:RegisterStash(invId, label, slots, maxweight)
+    end
+    inventory = Inventory(invId)
+
     if not inventory then return end
 
     server.forceOpenInventory(playerId, inventory.type, inventory.id)
