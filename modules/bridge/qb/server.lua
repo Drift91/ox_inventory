@@ -62,7 +62,10 @@ local function setupPlayer(Player)
     end)
 
     QBCore.Functions.AddPlayerMethod(Player.PlayerData.source, "GetItemsByName", function(itemName)
-        return setItemCompatibilityProps(Inventory.GetSlotsWithItem(Player.PlayerData.source, itemName))
+		local items = Inventory.GetSlotsWithItem(Player.PlayerData.source, itemName)
+		local response = {}
+		for k, item in ipairs(items) do response[k] = setItemCompatibilityProps(item) end
+        return response
     end)
 
     QBCore.Functions.AddPlayerMethod(Player.PlayerData.source, "ClearInventory", function(filterItems)
